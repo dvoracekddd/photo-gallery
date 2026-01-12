@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import type { Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Preferences } from '@capacitor/preferences';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PhotoService {
   public photos: UserPhoto[] = [];
+  //Key for photo storage
+  private PHOTO_STORAGE: string = 'photos';
 
   public async addNewToGallery() {
     // Take a photo
@@ -20,6 +23,12 @@ export class PhotoService {
     const savedImageFile = await this.savePicture(capturedPhoto);
 
     this.photos.unshift(savedImageFile);
+    
+    //method to cache all photo data for future retrieval
+    Preferences.set({
+      key: this.PHOTO_STORAGE,
+      value: JSON.stringify(this.photos),
+    });
   }
 
   private async savePicture(photo: Photo) {
@@ -53,6 +62,26 @@ export class PhotoService {
       };
       reader.readAsDataURL(blob);
     });
+  }
+
+  public async loadSaved() {
+    // Retrieve cached photo array data
+    //const { value: photoList } = await Preferences.get({ key: this.PHOTO_STORAGE });
+    const result = await Preferences.get({ key: 'photos' });
+    const photoList = result.value;
+    this.photos = (photoList ? JSON.parse(photoList) : []) as UserPhoto[];
+
+    //Display the photo by reading into base64 format
+    for (let photo of this.photos) {
+      // Read each saved photo's data from the Filesystem
+      const readFile = await Filesystem.readFile({
+        path: photo.filepath,
+        directory: Directory.Data,
+      });
+
+      // Web platform only: Load the photo as base64 data
+      photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
+    }
   }
 }
 
