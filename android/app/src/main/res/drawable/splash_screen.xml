@@ -1,0 +1,11 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pozadí -->
+    <item android:drawable="@color/colorPrimary" /> <!-- nebo jiná barva pozadí -->
+
+    <!-- obrázek uprostřed -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash" />
+    </item>
+</layer-list>
