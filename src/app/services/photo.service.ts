@@ -153,4 +153,5 @@ export interface UserPhoto {
   description?: string;
   latitude?: number;  
   longitude?: number;  
+  selected?: boolean; 
 }

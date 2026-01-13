@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      O aplikaci
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,34 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">App info</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center ion-margin-top">
+      <!-- Ikonka aplikace -->
+      <ion-col size="auto">
+        <img src="assets/icon/icon.png" style="width: 100px; height: 100px; border-radius: 20px;">
+      </ion-col>
+    </ion-row>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <ion-row class="ion-justify-content-center ion-text-center ion-margin-top">
+      <ion-col size="12" size-md="8">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Photo Gallery App</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p><strong>Kurz:</strong> Programování mobilních aplikací #2025 #ZS</p>
+            <p><strong>Autor:</strong> David Dvořáček</p>
+            <p><strong>Tutorial použit:</strong> 
+              <a href="https://ionicframework.com/docs/angular/your-first-app" target="_blank">
+                Ionic Your First App
+              </a>
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

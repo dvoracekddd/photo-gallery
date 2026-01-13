@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Delete
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,18 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Delete</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+
+  <ion-list>
+    <ion-item *ngFor="let photo of photoService.photos; let i = index">
+      <ion-label>{{ photo.title || 'Bez názvu' }}</ion-label>
+      <ion-checkbox slot="start" [(ngModel)]="photo.selected"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <ion-button expand="full" (click)="deleteSelected()">Smazat vybrané</ion-button>
+
+
 </ion-content>
