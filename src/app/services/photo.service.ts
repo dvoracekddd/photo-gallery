@@ -5,6 +5,8 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
+
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +34,12 @@ export class PhotoService {
 
     const savedImageFile = await this.savePicture(capturedPhoto);
 
-    this.photos.unshift(savedImageFile);
+    const location = await this.getCurrentLocation();
+
+    this.photos.unshift({
+      ...savedImageFile,
+      latitude: location.latitude,
+      longitude: location.longitude});
     
     // Method to cache all photo data for future retrieval
     Preferences.set({
@@ -117,9 +124,33 @@ export class PhotoService {
       }
     }
   }
+
+  async savePhotos() {
+    await Preferences.set({
+      key: this.PHOTO_STORAGE,
+      value: JSON.stringify(this.photos),
+    });
+  }
+
+  private async getCurrentLocation() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      return {
+        latitude: coordinates.coords.latitude,
+        longitude: coordinates.coords.longitude
+      };
+    } catch (err) {
+      console.warn('Nepodařilo se získat GPS:', err);
+      return { latitude: undefined, longitude: undefined };
+    }
+  }
 }
 
 export interface UserPhoto {
   filepath: string;
   webviewPath?: string;
+  title?: string;
+  description?: string;
+  latitude?: number;  
+  longitude?: number;  
 }

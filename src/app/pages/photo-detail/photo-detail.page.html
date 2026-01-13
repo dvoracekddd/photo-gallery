@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>photo-detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="photo" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+      <ion-title size="large">photo-detail</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Fotka -->
+  <ion-img [src]="photo.webviewPath"></ion-img>
+
+  <!-- Titulek a popis -->
+  <ion-item>
+    <ion-input [(ngModel)]="photo.title" placeholder="Název fotografie"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-textarea [(ngModel)]="photo.description" placeholder="Popis"></ion-textarea>
+  </ion-item>
+
+  <ion-item *ngIf="locationName">
+    <ion-label>Lokace: {{ locationName }}</ion-label>
+  </ion-item> 
+
+  <!-- MAPA – pevná výška a šířka -->
+  <div id="map-container" [hidden]="!photo.latitude || !photo.longitude">
+    <div id="map"></div>
+  </div>
+
+  <ion-button expand="full" (click)="save()">Uložit</ion-button>
+</ion-content>
+
